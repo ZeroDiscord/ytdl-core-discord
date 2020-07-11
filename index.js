@@ -19,9 +19,9 @@ function nextBestFormat(formats) {
 	return formats.find(format => !format.bitrate) || formats[0];
 }
 
-async function download(url, options = {}) {
+function download(url, options = {}) {
 	return new Promise((resolve, reject) => {
-		let info = await ytdl.getInfo(url);
+		ytdl.getInfo(url, (err, info) => {
 			if (err) return reject(err);
 			// Prefer opus
 			const format = info.formats.find(filter);
@@ -55,6 +55,8 @@ async function download(url, options = {}) {
 				});
 				return resolve(stream);
 			}
+			
+		});
 		
 	});
 }
